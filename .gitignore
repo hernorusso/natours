@@ -1,0 +1,14 @@
+# third party software
+node_modules
+
+# configuration files
+config.env
+
+#local development files
+dev-data
+
+# s3 like resources
+public/img
+
+# exact dependency configuration
+package-lock.json
