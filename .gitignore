@@ -9,6 +9,3 @@ dev-data
 
 # s3 like resources
 public/img
-
-# exact dependency configuration
-package-lock.json
