@@ -13,6 +13,7 @@ const tourSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: [true, ' A tour must have a price'],
+    validate: (price) => price > 300,
   },
 });
 
