@@ -3,10 +3,17 @@ const Tour = require('../models/tourModel');
 // 2. Route Handlers
 exports.getAllTours = async (req, res) => {
   try {
-    // build the query
-    const queryObj = { ...req.query };
+    // build the query object
+    let queryObj = { ...req.query };
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((field) => delete queryObj[field]);
+
+    // Replace mongo operators
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(lte|lt|gte|gt)\b/g, (match) => `$${match}`);
+    queryObj = JSON.parse(queryStr);
+
+    // Create the actual query
     const query = Tour.find(queryObj);
 
     // execute the query
