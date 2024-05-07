@@ -33,7 +33,19 @@ exports.getAllTours = async (req, res) => {
     } else {
       query.select('-__v');
     }
+
+    // Pagination
+    const { page, limit = 10 } = req.query;
+    const pageSize = limit * 1;
+    const pageNum = page * 1 || 1;
+    const skip = (pageNum - 1) * pageSize;
+    query.skip(skip).limit(pageSize);
     // execute the query
+    if (page) {
+      const toursNum = await Tour.countDocuments();
+      if (toursNum <= skip)
+        throw new Error('The page you request does not exist');
+    }
     const tours = await query;
 
     // Send response
@@ -45,7 +57,7 @@ exports.getAllTours = async (req, res) => {
   } catch (err) {
     res.status(404).json({
       status: 'fail',
-      message: err,
+      message: err.message,
     });
   }
 };
