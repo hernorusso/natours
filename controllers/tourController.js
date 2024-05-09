@@ -1,5 +1,15 @@
 const Tour = require('../models/tourModel');
 
+// MiddleWare
+exports.aliasTopTours = (req, res, next) => {
+  const TOP_TOURS_QUANTITY = '5';
+  const TOP_TOURS_SORTING = 'price,-ratingsAverage';
+  const TOP_TOURS_FIELDS = 'name,price,averageRatings,summary,difficulty';
+  req.query.limit = TOP_TOURS_QUANTITY;
+  req.query.sort = TOP_TOURS_SORTING;
+  req.query.fields = TOP_TOURS_FIELDS;
+  next();
+};
 // 2. Route Handlers
 exports.getAllTours = async (req, res) => {
   try {
